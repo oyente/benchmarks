@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Oyente by oyente</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Oyente</h1>
+        <p>Smart Contract Analysis Benchmarks</p>
+
+        <p class="view"><a href="https://github.com/oyente/benchmarks">View the Project on GitHub <small>oyente/benchmarks</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/oyente/benchmarks/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/oyente/benchmarks/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/oyente/benchmarks">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="oyente" class="anchor" href="#oyente" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Oyente</h1>
+
+<p><strong>Note: The tool is currently under development, please report any bugs you may find.</strong></p>
+
+<h2>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Start</h2>
+
+<p>A container with the dependencies set up and the blockchain snapshot installed can be found <a href="https://hub.docker.com/r/hrishioa/oyente/">here</a>.</p>
+
+<p>To open the container, install docker and run:</p>
+
+<p><code>docker pull hrishioa/oyente &amp;&amp; docker run -i -t hrishioa/oyente</code></p>
+
+<p>To evaluate the greeter contract Inside the container, run:</p>
+
+<p><code>cd /home/oyente/oyente &amp;&amp; source ../dependencies/venv/bin/activate &amp;&amp; python oyente.py greeter.sol</code></p>
+
+<p>and you are done!</p>
+
+<h2>
+<a id="benchmarks" class="anchor" href="#benchmarks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Benchmarks</h2>
+
+<p>To run the benchmarks, the fastest way is to use the docker image.</p>
+
+<p>The blockchain snapshot is in <code>contract_data</code> and the benchmark results are in <code>benchmarks/results.json</code>. The benchmarks were run using a 5-minute timeout - using a longer timeout will give fewer incomplete executions.</p>
+
+<p>In the container, run <code>batch_run.py</code> after activating the virtualenv. Results are in <code>results.json</code> once the benchmark completes.</p>
+
+<p>The benchmarks take a long time and a <em>lot</em> of RAM in any but the largest of clusters, beware.</p>
+
+<h3>
+<a id="benchmark-results" class="anchor" href="#benchmark-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Benchmark Results</h3>
+
+<table>
+<thead>
+<tr>
+<th>Bug</th>
+<th align="left">Occurrences</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Callstack Bug</td>
+<td align="left">4792</td>
+</tr>
+<tr>
+<td>Reentrancy</td>
+<td align="left">3742</td>
+</tr>
+<tr>
+<td>Time Dependancy</td>
+<td align="left">165</td>
+</tr>
+<tr>
+<td>Concurrency</td>
+<td align="left">490</td>
+</tr>
+<tr>
+<td>Total</td>
+<td align="left">11839</td>
+</tr>
+<tr>
+<td>(Timeout)</td>
+<td align="left">5715</td>
+</tr>
+</tbody>
+</table>
+
+<p><em>The results are different from those in the paper. This is an improved version of the tool, with fewer exceptions.</em> </p>
+
+<h2>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h2>
+
+<ol>
+<li>solc and disasm from <a href="https://github.com/ethereum/go-ethereum">go-ethereum</a>
+</li>
+<li>
+<a href="https://github.com/Z3Prover/z3/releases">z3</a> Theorem Prover</li>
+</ol>
+
+<h2>
+<a id="evaluating-ethereum-contracts" class="anchor" href="#evaluating-ethereum-contracts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Evaluating Ethereum Contracts</h2>
+
+<p><code>python oyente.py &lt;contract filename&gt;</code></p>
+
+<p>And that's it! Run <code>python oyente.py --help</code> for a list of options.</p>
+
+<h2>
+<a id="paper" class="anchor" href="#paper" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Paper</h2>
+
+<p>The accompanying paper explaining the bugs detected by the tool can be found <a href="http://www.comp.nus.edu.sg/%7Eloiluu/papers/oyente.pdf">here</a>.</p>
+
+<h2>
+<a id="miscellaneous-utilities" class="anchor" href="#miscellaneous-utilities" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Miscellaneous Utilities</h2>
+
+<p>A collection of the utilities that were developed for the paper are in <code>Misc_Utils</code>. Use them at your own risk - they have mostly been disposable.</p>
+
+<ol>
+<li>
+<code>generate-graphs.py</code> - Contains a number of functions to get statistics from contracts.</li>
+<li>
+<code>get_source.py</code> - The <em>get_contract_code</em> function can be used to retrieve contract source from <a href="https://etherscan.io">EtherScan</a>
+</li>
+<li>
+<code>transaction_scrape.py</code> - Contains functions to retrieve up-to-date transaction information for a particular contract.</li>
+</ol>
+
+<h4>
+<a id="known-issues" class="anchor" href="#known-issues" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Known Issues</h4>
+
+<p>If you encounter the <code>unhashable instance</code> error, please add the following to your <code>class AstRef(Z3PPObject):</code> in <code>/usr/lib/python2.7/dist-packages/z3.py</code>:</p>
+
+<pre><code>def __hash__(self):
+        return self.hash()
+</code></pre>
+
+<p>The latest version of Z3 does support this, but some previous version does not.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/oyente">oyente</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
